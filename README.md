@@ -27,6 +27,8 @@ Handle OS2200 driver lack of impementation for "connection.isValid()"  method by
 
 Change default setting to "NUMERIC_PRECISION_MAPPING_DEFAULT = true", to auto assign NUMERIC types to the correct types based on their sizes
 
+Get additional field from the second version of each table using LEFT join on TL_CBSLG1_LOG_ID and TL_CBSLG2_LOG_ID fields
+
 Add support for NUMERIC types with "size > and presicion > 0" to be identified as DOUBLE types - All other not auto-identified types are mapped to STRING type instead of array of bytes that maps to BIGINT.
 
 Correct timezone for date types to be "Europe/Athens" instead of "UTC" as log data are stored in RDMS in Greek time.
