@@ -7,9 +7,6 @@ Documentation for this connector can be found at Unisystems
 
 # Development
 
-To build a development version you'll need a recent version of Kafka. You can build
-kafka-connect-os200-jdbc with Maven using the standard lifecycle phases.
-
 The following changes have been impemented arround the forked kafka-connect-jdbc 4.0.0-post repository:
 
 Connector class is: gr.unisystems.connect.jdbc.OS200JdbcSourceConnector
@@ -34,7 +31,41 @@ Add support for NUMERIC types with "size > and presicion > 0" to be identified a
 
 Correct timezone for date types to be "Europe/Athens" instead of "UTC" as log data are stored in RDMS in Greek time.
 
+# Build
 
+To build a development version you'll need a recent version of Kafka. You can build
+kafka-connect-os200-jdbc with Maven using the standard lifecycle phases.
+
+Install Open JDK
+
+	yum install java-1.8.0-openjdk
+	yum install java-1.8.0-openjdk-devel
+
+Install maven
+
+	curl -O  http://www-eu.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz
+	tar xzvf apache-maven-3.5.2-bin.tar.gz
+	rm -f    apache-maven-3.5.2-bin.tar.gz
+	mv       apache-maven-3.5.2 /opt/mvn
+	/opt/mvn/bin/mvn -v
+  
+Clone repository
+
+  cd /work
+  git clone https://github.com/confluentinc/kafka-connect-jdbc
+  
+Build jar libray
+
+  cd /work/kafka-connect-os2200-jdbc
+	/opt/mvn/bin/mvn package -DskipTests -Dcheckstyle.skip
+
+Deploy
+
+  Place the new compiled jar it to all brokers:
+  scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka1:/usr/share/java/kafka-connect-jdbc/
+	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka2:/usr/share/java/kafka-connect-jdbc/
+	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka3:/usr/share/java/kafka-connect-jdbc/
+  
 # License
 
 The project is licensed under the Apache 2 license.
