@@ -24,7 +24,7 @@ Identify OS2200 RDMS database from metadata and configure SQL statement to get c
 
 Remove checking database and table schema at startup and periodically with "TableMonitorThread" because of using a read only SQL user account - Whitelist of tables is added statically instead
 
-Change default setting to not check for non null validation with "VALIDATE_NON_NULL_DEFAULT = false" setting
+Change default setting to not check fields for null validation with "VALIDATE_NON_NULL_DEFAULT = false" setting
 
 Handle OS2200 driver lack of impementation for "connection.isValid()"  method by replacing it with "connection.isClosed()" method
 
