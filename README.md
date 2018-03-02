@@ -1,4 +1,4 @@
-# Kafka Connect OS2200 JDBC Connector
+# Kafka Connect JDBC Connector for Unisys OS200 RDMS Database
 
 kafka-connect-os2200-jdbc is a [Kafka Connector](http://kafka.apache.org/documentation.html#connect)
 for loading data from Unisys OS2200 JDBC-compatible RDMS database.
