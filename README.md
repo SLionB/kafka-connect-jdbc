@@ -41,7 +41,7 @@ Install Open JDK
 	yum install java-1.8.0-openjdk
 	yum install java-1.8.0-openjdk-devel
 
-Install maven
+Install Maven
 
 	curl -O  http://www-eu.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz
 	tar xzvf apache-maven-3.5.2-bin.tar.gz
@@ -51,21 +51,23 @@ Install maven
   
 Clone repository
 
-  cd /work
-  git clone https://github.com/confluentinc/kafka-connect-jdbc
+	cd /work  
+	git clone https://github.com/confluentinc/kafka-connect-jdbc
   
-Build jar libray
+  
+Build connector
 
-  cd /work/kafka-connect-os2200-jdbc
+	cd /work/kafka-connect-os2200-jdbc
 	/opt/mvn/bin/mvn package -DskipTests -Dcheckstyle.skip
+   
 
-Deploy
+Deploy connector
 
-  Place the new compiled jar it to all brokers:
-  scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka1:/usr/share/java/kafka-connect-jdbc/
-	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka2:/usr/share/java/kafka-connect-jdbc/
-	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka3:/usr/share/java/kafka-connect-jdbc/
-  
+	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka1:/usr/share/java/kafka-connect-jdbc/ 
+	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka1:/usr/share/java/kafka-connect-jdbc/ 
+	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka1:/usr/share/java/kafka-connect-jdbc/
+	
+   
 # License
 
 The project is licensed under the Apache 2 license.
