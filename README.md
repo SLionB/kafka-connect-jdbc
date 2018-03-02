@@ -12,11 +12,11 @@ kafka-connect-os200-jdbc with Maven using the standard lifecycle phases.
 
 Connector class is: gr.unisystems.connect.jdbc.OS200JdbcSourceConnector.
 
-Connector is a source connector only. 
+Connector is a source connector only 
 
-Supports input table names with ":" by replacing it with "-" in the output topic name.
+Supports input table names with ":" by replacing it with "-" in the output topic name
 
-Remove double quotes around table names in SQL strings
+Remove double quotes around table names in calculated SQL query string
 
 Identify OS2200 RDMS database from metadata and configure SQL statement to get current time as select current_timestamp from RDMS.RDMS_DUMMY
 
