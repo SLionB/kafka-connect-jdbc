@@ -28,7 +28,7 @@ Change default setting to not check fields for null validation with "VALIDATE_NO
 
 Handle OS2200 driver lack of impementation for "connection.isValid()"  method by replacing it with "connection.isClosed()" method
 
-Change default setting to "NUMERIC_PRECISION_MAPPING_DEFAULT = true", to auto assign NUMERIC types to numeric values
+Change default setting to "NUMERIC_PRECISION_MAPPING_DEFAULT = true", to auto assign NUMERIC types to the correct types based on their sizes
 
 Add support for NUMERIC types with "size > and presicion > 0" to be identified as DOUBLE types - All other not auto-identified types are mapped to STRING type instead of array of bytes that maps to BIGINT.
 
