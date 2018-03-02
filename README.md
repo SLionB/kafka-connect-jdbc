@@ -14,7 +14,7 @@ Connector class is: gr.unisystems.connect.jdbc.OS200JdbcSourceConnector.
 
 Connector is a source connector only. 
 
-Supports input table names with ":" by replacing it with "-" in the outout topic name.
+Supports input table names with ":" by replacing it with "-" in the output topic name.
 
 Remove double quotes around table names in SQL strings
 
