@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-package io.confluent.connect.jdbc.source;
+package gr.unisystems.connect.jdbc.source;
 
-import io.confluent.connect.jdbc.source.JdbcSourceConnectorConfig.CachedRecommenderValues;
-import io.confluent.connect.jdbc.source.JdbcSourceConnectorConfig.CachingRecommender;
+import gr.unisystems.connect.jdbc.source.JdbcSourceConnectorConfig.CachedRecommenderValues;
+import gr.unisystems.connect.jdbc.source.JdbcSourceConnectorConfig.CachingRecommender;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Recommender;
 import org.apache.kafka.common.config.ConfigValue;
@@ -24,12 +24,7 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.api.easymock.annotation.Mock;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -42,17 +37,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Recommender.class})
-@PowerMockIgnore("javax.management.*")
 public class JdbcSourceConnectorConfigTest {
 
   private EmbeddedDerby db;
   private Map<String, String> props;
   private ConfigDef configDef;
   private List<ConfigValue> results;
-  @Mock
-  private Recommender mockRecommender;
+  private Recommender mockRecommender = PowerMock.createMock(Recommender.class);
   private MockTime time = new MockTime();
 
   @Before

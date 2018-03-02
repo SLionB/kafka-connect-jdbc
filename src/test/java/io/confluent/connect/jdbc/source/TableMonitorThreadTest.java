@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package io.confluent.connect.jdbc.source;
+package gr.unisystems.connect.jdbc.source;
 
 import org.apache.kafka.connect.connector.ConnectorContext;
 import org.apache.kafka.connect.errors.ConnectException;
@@ -38,8 +38,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import io.confluent.connect.jdbc.util.CachedConnectionProvider;
-import io.confluent.connect.jdbc.util.JdbcUtils;
+import gr.unisystems.connect.jdbc.util.CachedConnectionProvider;
+import gr.unisystems.connect.jdbc.util.JdbcUtils;
 
 import static org.junit.Assert.assertEquals;
 

@@ -20,16 +20,13 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>io.confluent</groupId>
-        <artifactId>common</artifactId>
-        <version>5.0.0-SNAPSHOT</version>
-    </parent>
 
-    <groupId>io.confluent</groupId>
-    <artifactId>kafka-connect-jdbc</artifactId>
+
+    <groupId>gr.unisystems</groupId>
+    <artifactId>kafka-connect-os2200-jdbc</artifactId>
     <packaging>jar</packaging>
-    <name>kafka-connect-jdbc</name>
+	<version>4.0.1-SNAPSHOT</version>
+    <name>kafka-connect-os2200-jdbc</name>
     <organization>
         <name>Confluent, Inc.</name>
         <url>http://confluent.io</url>
@@ -56,8 +53,14 @@
 
     <properties>
         <confluent.version>${project.version}</confluent.version>
+		<kafka.version>0.11.0.0-cp1</kafka.version>
+        <junit.version>4.12</junit.version>
+        <easymock.version>3.0</easymock.version>
+        <powermock.version>1.6.2</powermock.version>
+        <mockito.version>1.10.19</mockito.version>
         <derby.version>10.11.1.1</derby.version>
         <commons-io.version>2.4</commons-io.version>
+		<slf4j.version>1.7.5</slf4j.version>
         <sqlite-jdbc.version>3.8.11.2</sqlite-jdbc.version>
         <postgresql.version>9.4-1206-jdbc41</postgresql.version>
         <licenses.name>Apache License 2.0</licenses.name>
@@ -79,6 +82,7 @@
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>connect-api</artifactId>
+			<version>${kafka.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -99,21 +103,25 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+			<version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
+			<version>${easymock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
+			 <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-easymock</artifactId>
+			<version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -131,11 +139,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
+			 <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -174,6 +184,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
                 <executions>
                     <execution>
                         <id>validate</id>
@@ -282,15 +293,15 @@
                             <execution>
                                 <id>create-licenses</id>
                                 <configuration>
-                                    <mainClass>io.confluent.licenses.LicenseFinder</mainClass>
+                                    <mainClass>gr.unisystems.licenses.LicenseFinder</mainClass>
                                     <arguments>
                                         <!-- Note use of development instead of package so we pick up all dependencies. -->
-                                        <argument>-i ${project.build.directory}/${project.build.finalName}-package/share/java/kafka-connect-jdbc</argument>
+                                        <argument>-i ${project.build.directory}/${project.build.finalName}-package/share/java/kafka-connect-os2200-jdbc</argument>
                                         <argument>-o ${project.basedir}/licenses</argument>
                                         <argument>-f</argument>
-                                        <argument>-h ${project.build.directory}/${project.build.finalName}-package/share/doc/kafka-connect-jdbc/licenses.html</argument>
-                                        <argument>-l ${project.build.directory}/${project.build.finalName}-package/share/doc/kafka-connect-jdbc/licenses</argument>
-                                        <argument>-n ${project.build.directory}/${project.build.finalName}-package/share/doc/kafka-connect-jdbc/notices</argument>
+                                        <argument>-h ${project.build.directory}/${project.build.finalName}-package/share/doc/kafka-connect-os2200-jdbc/licenses.html</argument>
+                                        <argument>-l ${project.build.directory}/${project.build.finalName}-package/share/doc/kafka-connect-os2200-jdbc/licenses</argument>
+                                        <argument>-n ${project.build.directory}/${project.build.finalName}-package/share/doc/kafka-connect-os2200-jdbc/notices</argument>
                                         <argument>-t ${project.name}</argument>
                                         <argument>-x licenses-${licenses.version}.jar</argument>
                                     </arguments>
@@ -305,13 +316,13 @@
                             <includeProjectDependencies>true</includeProjectDependencies>
                             <includePluginDependencies>true</includePluginDependencies>
                             <executableDependency>
-                                <groupId>io.confluent</groupId>
+                                <groupId>gr.unisystems</groupId>
                                 <artifactId>licenses</artifactId>
                             </executableDependency>
                         </configuration>
                         <dependencies>
                             <dependency>
-                                <groupId>io.confluent</groupId>
+                                <groupId>gr.unisystems</groupId>
                                 <artifactId>licenses</artifactId>
                                 <version>${licenses.version}</version>
                             </dependency>
@@ -332,10 +343,10 @@
                             <execution>
                                 <id>create-licenses</id>
                                 <configuration>
-                                    <mainClass>io.confluent.licenses.LicenseFinder</mainClass>
+                                    <mainClass>gr.unisystems.licenses.LicenseFinder</mainClass>
                                     <arguments>
                                         <!-- Note use of development instead of package so we pick up all dependencies. -->
-                                        <argument>-i ${project.build.directory}/${project.build.finalName}-development/share/java/kafka-connect-jdbc</argument>
+                                        <argument>-i ${project.build.directory}/${project.build.finalName}-development/share/java/kafka-connect-os2200-jdbc</argument>
                                         <argument>-o ${project.basedir}/licenses</argument>
                                         <argument>-f</argument>
                                         <argument>-h ${project.basedir}/licenses.html</argument>
@@ -355,13 +366,13 @@
                             <includeProjectDependencies>true</includeProjectDependencies>
                             <includePluginDependencies>true</includePluginDependencies>
                             <executableDependency>
-                                <groupId>io.confluent</groupId>
+                                <groupId>gr.unisystems</groupId>
                                 <artifactId>licenses</artifactId>
                             </executableDependency>
                         </configuration>
                         <dependencies>
                             <dependency>
-                                <groupId>io.confluent</groupId>
+                                <groupId>gr.unisystems</groupId>
                                 <artifactId>licenses</artifactId>
                                 <version>${licenses.version}</version>
                             </dependency>

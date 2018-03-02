@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.confluent.connect.jdbc.source;
+package gr.unisystems.connect.jdbc.source;
 
 import org.apache.kafka.common.utils.Time;
 

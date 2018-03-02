@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package io.confluent.connect.jdbc.source;
+package gr.unisystems.connect.jdbc.source;
 
 import org.apache.kafka.common.utils.Time;
 import org.apache.kafka.connect.source.SourceTaskContext;
@@ -23,7 +23,6 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.api.easymock.annotation.Mock;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -64,17 +63,15 @@ public class JdbcSourceTaskTestBase {
   protected static final String TOPIC_PREFIX = "test-";
 
   protected Time time;
-  @Mock
   protected SourceTaskContext taskContext;
   protected JdbcSourceTask task;
   protected EmbeddedDerby db;
-  @Mock
-  private OffsetStorageReader reader;
 
   @Before
   public void setup() throws Exception {
     time = new MockTime();
     task = new JdbcSourceTask(time);
+    taskContext = PowerMock.createMock(SourceTaskContext.class);
     db = new EmbeddedDerby();
   }
 
@@ -104,6 +101,7 @@ public class JdbcSourceTaskTestBase {
   }
 
   protected <T> void expectInitialize(Collection<Map<String, T>> partitions, Map<Map<String, T>, Map<String, Object>> offsets) {
+    OffsetStorageReader reader = PowerMock.createMock(OffsetStorageReader.class);
     EasyMock.expect(taskContext.offsetStorageReader()).andReturn(reader);
     EasyMock.expect(reader.offsets(EasyMock.eq(partitions))).andReturn(offsets);
   }

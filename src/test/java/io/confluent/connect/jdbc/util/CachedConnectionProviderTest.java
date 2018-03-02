@@ -1,4 +1,4 @@
-package io.confluent.connect.jdbc.util;
+package gr.unisystems.connect.jdbc.util;
 
 import org.apache.kafka.connect.errors.ConnectException;
 import org.easymock.EasyMock;

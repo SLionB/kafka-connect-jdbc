@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-package io.confluent.connect.jdbc.source;
+package gr.unisystems.connect.jdbc.source;
 
 import org.junit.After;
 import org.junit.Before;
@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import io.confluent.connect.jdbc.util.JdbcUtils;
+import gr.unisystems.connect.jdbc.util.JdbcUtils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
