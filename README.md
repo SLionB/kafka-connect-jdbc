@@ -9,7 +9,7 @@ Documentation for this connector can be found at Unisystems
 
 The following changes have been impemented arround the forked kafka-connect-jdbc 4.0.0-post repository:
 
-Connector class is: gr.unisystems.connect.jdbc.OS200JdbcSourceConnector
+Connector class is: gr.unisystems.connect.jdbc.OS2200JdbcSourceConnector
 
 Connector is a source connector only 
 
