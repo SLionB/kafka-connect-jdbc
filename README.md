@@ -52,7 +52,7 @@ Install Maven
 Clone repository
 
 	cd /work  
-	git clone https://github.com/confluentinc/kafka-connect-jdbc
+	git clone https://github.com/SLionB/kafka-connect-os2200-jdbc.git
   
   
 Build connector
