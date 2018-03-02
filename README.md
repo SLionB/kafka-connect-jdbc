@@ -10,7 +10,9 @@ Documentation for this connector can be found at Unisystems
 To build a development version you'll need a recent version of Kafka. You can build
 kafka-connect-os200-jdbc with Maven using the standard lifecycle phases.
 
-Connector class is: gr.unisystems.connect.jdbc.OS200JdbcSourceConnector.
+The following changes have been impemented arround the forked kafka-connect-jdbc 4.0.0-post repository:
+
+Connector class is: gr.unisystems.connect.jdbc.OS200JdbcSourceConnector
 
 Connector is a source connector only 
 
