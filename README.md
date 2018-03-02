@@ -20,17 +20,17 @@ Supports input table names with ":" by replacing it with "-" in the output topic
 
 Remove double quotes around table names in calculated SQL query string
 
-Identify OS2200 RDMS database from metadata and configure SQL statement to get current time as select current_timestamp from RDMS.RDMS_DUMMY
+Identify OS2200 RDMS database from metadata and configure SQL statement to get current time as "select current_timestamp from RDMS.RDMS_DUMMY"
 
-Remove checking database and table schema at startup and periodically with TableMonitorThread because of using a read only SQL user account - Whitelist of tables is added statically instead
+Remove checking database and table schema at startup and periodically with "TableMonitorThread" because of using a read only SQL user account - Whitelist of tables is added statically instead
 
-Change default setting to not check for non null validation with VALIDATE_NON_NULL_DEFAULT = false setting
+Change default setting to not check for non null validation with "VALIDATE_NON_NULL_DEFAULT = false" setting
 
-Handle OS2200 driver lack of impementation for connection.isValid()  method by replacing it with connection.isClosed() method
+Handle OS2200 driver lack of impementation for "connection.isValid()"  method by replacing it with "connection.isClosed()" method
 
-Change default setting to NUMERIC_PRECISION_MAPPING_DEFAULT = true, to auto assign NUMERIC types to numeric values
+Change default setting to "NUMERIC_PRECISION_MAPPING_DEFAULT = true", to auto assign NUMERIC types to numeric values
 
-Add support for numeric types with size > and presicion > 0 to be identified as double types - All other not auto-identified types are mapped to strings instead of array of bytes.
+Add support for NUMERIC types with "size > and presicion > 0" to be identified as DOUBLE types - All other not auto-identified types are mapped to STRING type instead of array of bytes that maps to BIGINT.
 
 Correct timezone for date types to be "Europe/Athens" instead of "UTC" as log data are stored in RDMS in Greek time.
 
