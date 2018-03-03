@@ -37,3 +37,48 @@
         throw new ConfigException("Couldn't open connection to " + dbUrl, e);
       }
 ```
+## Avoid reading table schema periodically
+**JdbcSourceConnector.java**
+(*line 41*)
+```diff
+- import io.confluent.connect.jdbc.source.TableMonitorThread;
+```
+(*line 58*)
+```diff
+- private TableMonitorThread tableMonitorThread;
+```
+(*line 123*)
+```diff
+- 	  tableMonitorThread = new TableMonitorThread(
+-	      cachedConnectionProvider,
+-	      context,
+-	      schemaPattern,
+-	      tablePollMs,
+-	      whitelistSet,
+-	      blacklistSet,
+-	      tableTypesSet
+-	  );
+-	  tableMonitorThread.start();
+```
+(*line 150*)
+```diff
+- 	  List<String> currentTables = tableMonitorThread.tables();
++	  List<String> whitelist     = config.getList(JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG); 
++     Set<String>  whitelistSet  = whitelist.isEmpty() ? null : new HashSet<>(whitelist);
++	  List<String> currentTables = new ArrayList<>(whitelistSet);
+```
+(*line 166*)
+```diff
+-  log.info("Stopping table monitoring thread");
+-  tableMonitorThread.shutdown();
+-  try {
+-    tableMonitorThread.join(MAX_TIMEOUT);
+-  } catch (InterruptedException e) {
+-  
+- }
+```
+
+
+
+
+
