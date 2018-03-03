@@ -2,11 +2,11 @@
 
 ## Support table names containing the character ":"
 **TimestampIncrementingTableQuerier.java**(*line 214*)
-
-~~topic = topicPrefix + name;~~
-```diff java 
+```java
+```diff 
 -topic = topicPrefix + name;
 +topic = topicPrefix + name.replaceAll(":","_"); 
+```
 ```
 
 ## Remove double quotes around table names in calculated SQL query string
