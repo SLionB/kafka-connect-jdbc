@@ -1,11 +1,10 @@
+# History of changes
 
-# Supporting table names containing the character ":"
+## Supporting table names containing the character ":"
 
-* /src/main/java/io/confluent/connect/jdbc/source/TimestampIncrementingTableQuerier.java
-
+** /src/main/java/io/confluent/connect/jdbc/source/TimestampIncrementingTableQuerier.java **
+* line 214 *
 ```
-from
-		topic = topicPrefix + name;
-to
-		topic = topicPrefix + name.replaceAll(":","_"); 
+~~topic = topicPrefix + name;~~
+topic = topicPrefix + name.replaceAll(":","_"); 
 ```
