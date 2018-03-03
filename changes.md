@@ -13,7 +13,7 @@
 + builder.append(name); 
 ```
 
-## Get currrent time for OS2200 RDMS
+## Get currrent time for OS2200 RDMS database
 **JdbcUtils.java**(*line 243*)
 ```diff
     String dbProduct = conn.getMetaData().getDatabaseProductName();
@@ -27,7 +27,8 @@
     }
 ```
 ## Avoid reading table schema at startup
-**JdbcSourceConnectorConfig.java**(*line 482*)
+**JdbcSourceConnectorConfig.java**
+(*line 482*)
 ```diff
 +     Set<String> whitelistSet  = new HashSet<>( (List<String>) config.get(JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG) );  
       try (Connection db = DriverManager.getConnection(dbUrl, dbUser, dbPasswordStr)) {
@@ -77,7 +78,35 @@
 -  
 - }
 ```
-
+## Avoid checking non null validity by default
+**JdbcSourceConnectorConfig.java**
+(*line 181*)
+```diff
+- public static final boolean VALIDATE_NON_NULL_DEFAULT = true;
++ public static final boolean VALIDATE_NON_NULL_DEFAULT = false;
+```
+## Avoid checking non null validity by default
+**CachedConnectionProvider.java**
+(*line 65*)
+```diff
+  public synchronized Connection getValidConnection() {
+      try {
+            if (connection == null) {
+            newConnection();
+-           } else if (!connection.isValid(VALIDITY_CHECK_TIMEOUT_S)) {
++           } else if ( connection.isClosed() ) {
+            log.info("Reconnecting to database because it is closed");
+            newConnection();
+            }
+	    }
+		catch (SQLException sqle) {
+        log.info("Reconnecting to database because of the error : ", sqle);
+	    connection = null;
+	    return null;
+        }
+  return connection;
+  }
+```
 
 
 
