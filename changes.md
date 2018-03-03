@@ -1,5 +1,7 @@
 # History of changes
 
+## Remove parent dependencies from pom.xml and add manual dependenies
+
 ## Support table names containing the character ":"
 **TimestampIncrementingTableQuerier.java**(*line 214*)
 ```diff 
@@ -107,6 +109,8 @@
   return connection;
   }
 ```
+## Implement LEFT JOIN on query string to get values from second set of tables
+
 ## Map numeric types to numeric equivalents
 **JdbcSourceConnectorConfig.java**
 (*line 181*)
@@ -224,10 +228,16 @@ public class DateTimeUtils {
   public static final ThreadLocal<Calendar> UTC_CALENDAR = new ThreadLocal<Calendar>() {
     @Override
     protected Calendar initialValue() {
-_     return new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+-     return new GregorianCalendar(TimeZone.getTimeZone("UTC"));
 +     return new GregorianCalendar(UTC);
     }
   };
 -  
+
+## Create new JAVA package gr.unisystems.connect as a copy of io.confluent.connect
+## Rename JdbcSourceConnector class to OS2200JdbcSourceConnector on gr.unisystems.connect package
+## Remove JdbcSinkConnector class from gr.unisystems.connect package
+
+	
 
 	
