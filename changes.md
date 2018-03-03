@@ -5,7 +5,7 @@
 ```diff 
 - topic = topicPrefix + name;
 + topic = topicPrefix + name.replaceAll(":","_"); 
-  
+```
 ## Remove double quotes around table names in calculated SQL query string
 **TimestampIncrementingTableQuerier.java**(*line 92*)
 ```diff 
