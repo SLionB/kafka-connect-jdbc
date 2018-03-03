@@ -14,7 +14,7 @@
 
 ## Get currrent time for OS2200 RDMS
 **JdbcUtils.java**(*line 243*)
-```
+```java
     String dbProduct = conn.getMetaData().getDatabaseProductName();
     if ("Oracle".equals(dbProduct)) {
       query = "select CURRENT_TIMESTAMP from dual";
@@ -25,4 +25,14 @@
       query = "select CURRENT_TIMESTAMP;";
     }
 ```
+## Avoid reading table schema at startup
+**JdbcSourceConnectorConfig.java**(*line 482*)
+```java
 
+      Set<String> whitelistSet  = new HashSet<>( (List<String>) config.get(JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG) );  
+      try (Connection db = DriverManager.getConnection(dbUrl, dbUser, dbPasswordStr)) {
+         return new LinkedList<Object>(whitelistSet);  // UniSystems change for OS2200
+      } catch (SQLException e) {
+        throw new ConfigException("Couldn't open connection to " + dbUrl, e);
+      }
+```
