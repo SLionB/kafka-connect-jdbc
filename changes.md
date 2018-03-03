@@ -20,7 +20,7 @@
       query = "select CURRENT_TIMESTAMP from dual";
     } else if ("Apache Derby".equals(dbProduct) || "DB2 UDB for AS/400".equals(dbProduct)) {
       query = "values(CURRENT_TIMESTAMP)";
-	  } else if (dbProduct.toUpperCase().contains("RDMS")) { query = "select current_timestamp from RDMS.RDMS_DUMMY;";**
+	  } else if (dbProduct.toUpperCase().contains("RDMS")) { query = "select current_timestamp from RDMS.RDMS_DUMMY;";
     } else {
       query = "select CURRENT_TIMESTAMP;";
     }
