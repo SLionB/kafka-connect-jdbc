@@ -63,10 +63,10 @@
 ```
 (*line 150*)
 ```diff
-- 	  List<String> currentTables = tableMonitorThread.tables();
-+	  List<String> whitelist     = config.getList(JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG); 
-+     Set<String>  whitelistSet  = whitelist.isEmpty() ? null : new HashSet<>(whitelist);
-+	  List<String> currentTables = new ArrayList<>(whitelistSet);
+- List<String> currentTables = tableMonitorThread.tables();
++ List<String> whitelist     = config.getList(JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG); 
++ Set<String>  whitelistSet  = whitelist.isEmpty() ? null : new HashSet<>(whitelist);
++ List<String> currentTables = new ArrayList<>(whitelistSet);
 ```
 (*line 166*)
 ```diff
@@ -85,7 +85,7 @@
 - public static final boolean VALIDATE_NON_NULL_DEFAULT = true;
 + public static final boolean VALIDATE_NON_NULL_DEFAULT = false;
 ```
-## Avoid checking non null validity by default
+## Handle OS2200 driver lack of isValid impementation
 **CachedConnectionProvider.java**
 (*line 65*)
 ```diff
@@ -107,7 +107,69 @@
   return connection;
   }
 ```
-
-
-
+## Map numeric types to numeric equivalents
+**JdbcSourceConnectorConfig.java**
+(*line 181*)
+```diff
+- public static final boolean NUMERIC_PRECISION_MAPPING_DEFAULT = false;
++ public static final boolean NUMERIC_PRECISION_MAPPING_DEFAULT = true;
+```
+## Map floating types based on their numeric scale
+**DataConverter.java**
+(*first instance of type NUMERIC*)
+```diff
+case Types.NUMERIC:
+        if (mapNumerics) {
+          int precision = metadata.getPrecision(col);
+          if (metadata.getScale(col) == 0 && precision < 19) { // integer
+            Schema schema;
+            if (precision > 9) {
+              schema = (optional) ? Schema.OPTIONAL_INT64_SCHEMA :
+                      Schema.INT64_SCHEMA;
+            } else if (precision > 4) {
+              schema = (optional) ? Schema.OPTIONAL_INT32_SCHEMA :
+                      Schema.INT32_SCHEMA;
+            } else if (precision > 2) {
+              schema = (optional) ? Schema.OPTIONAL_INT16_SCHEMA :
+                      Schema.INT16_SCHEMA;
+            } else {
+              schema = (optional) ? Schema.OPTIONAL_INT8_SCHEMA :
+                      Schema.INT8_SCHEMA;
+            }
+            builder.field(fieldName, schema);
+            break;
+          }
++	else if (metadata.getScale(col) > 0) { // double
++	  if (optional) {
++		builder.field(fieldName, Schema.OPTIONAL_FLOAT64_SCHEMA);
++		} else {
++		builder.field(fieldName, Schema.FLOAT64_SCHEMA);
++		}
++		break;
++       }
+```
+(*second instance of type NUMERIC*)
+```diff
+   case Types.NUMERIC:
+        if (mapNumerics) {
+          ResultSetMetaData metadata = resultSet.getMetaData();
+          int precision = metadata.getPrecision(col);
+          if (metadata.getScale(col) == 0 && precision < 19) { // integer
+            if (precision > 9) {
+              colValue = resultSet.getLong(col);
+            } else if (precision > 4) {
+              colValue = resultSet.getInt(col);
+            } else if (precision > 2) {
+              colValue = resultSet.getShort(col);
+            } else {
+              colValue = resultSet.getByte(col);
+            }
+            break;
+          }
++         else if (metadata.getScale(col) > 0) { // double
++	    colValue = resultSet.getDouble(col);
++	    break;
++	  }
+        }
+```
 
