@@ -209,7 +209,25 @@ case Types.NUMERIC:
 -        break;
 -      }
 +	case Types.DECIMAL: {
-+       colValue = resultSet.getNString(col);
++       colValue = resultSet.getString(col);
 +       break;
 +     }
 ```
+## Convert UTC time to Greek time
+**DateTimeUtils.java**
+(*line 25*)
+```diff
+public class DateTimeUtils {
+-  public static final TimeZone UTC = TimeZone.getTimeZone("UTC");
++  public static final TimeZone UTC = TimeZone.getTimeZone("Europe/Athens");
+
+  public static final ThreadLocal<Calendar> UTC_CALENDAR = new ThreadLocal<Calendar>() {
+    @Override
+    protected Calendar initialValue() {
+_     return new GregorianCalendar(TimeZone.getTimeZone("UTC"));
++     return new GregorianCalendar(UTC);
+    }
+  };
+-  
+
+	
