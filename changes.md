@@ -15,23 +15,24 @@
 
 ## Get currrent time for OS2200 RDMS
 **JdbcUtils.java**(*line 243*)
-```java
+```diff
     String dbProduct = conn.getMetaData().getDatabaseProductName();
     if ("Oracle".equals(dbProduct)) {
       query = "select CURRENT_TIMESTAMP from dual";
     } else if ("Apache Derby".equals(dbProduct) || "DB2 UDB for AS/400".equals(dbProduct)) {
       query = "values(CURRENT_TIMESTAMP)";
-	  } else if (dbProduct.toUpperCase().contains("RDMS")) { query = "select current_timestamp from RDMS.RDMS_DUMMY;";
++   } else if (dbProduct.toUpperCase().contains("RDMS")) { query = "select current_timestamp from RDMS.RDMS_DUMMY;";
     } else {
       query = "select CURRENT_TIMESTAMP;";
     }
 ```
 ## Avoid reading table schema at startup
 **JdbcSourceConnectorConfig.java**(*line 482*)
-```java
-      Set<String> whitelistSet  = new HashSet<>( (List<String>) config.get(JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG) );  
+```diff
++     Set<String> whitelistSet  = new HashSet<>( (List<String>) config.get(JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG) );  
       try (Connection db = DriverManager.getConnection(dbUrl, dbUser, dbPasswordStr)) {
-         return new LinkedList<Object>(whitelistSet);
+-        return new LinkedList<Object>(JdbcUtils.getTables(db, schemaPattern, tableTypes));
++        return new LinkedList<Object>(whitelistSet);
       } catch (SQLException e) {
         throw new ConfigException("Couldn't open connection to " + dbUrl, e);
       }
