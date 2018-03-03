@@ -4,13 +4,13 @@
 **TimestampIncrementingTableQuerier.java**(*line 214*)
 
 ~~topic = topicPrefix + name;~~
-> topic = topicPrefix + name.replaceAll(":","_"); 
+```java topic = topicPrefix + name.replaceAll(":","_"); ```
 
 ## Remove double quotes around table names in calculated SQL query string
 **TimestampIncrementingTableQuerier.java**(*line 92*)
 
 ~~builder.append(JdbcUtils.quoteString(name, quoteString));~~
-> builder.append(name); 
+```java builder.append(name); ```
 
 ## Get currrent time for OS2200 RDMS
 **JdbcUtils.java**(*line 243*)
@@ -28,10 +28,9 @@
 ## Avoid reading table schema at startup
 **JdbcSourceConnectorConfig.java**(*line 482*)
 ```java
-
       Set<String> whitelistSet  = new HashSet<>( (List<String>) config.get(JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG) );  
       try (Connection db = DriverManager.getConnection(dbUrl, dbUser, dbPasswordStr)) {
-         return new LinkedList<Object>(whitelistSet);  // UniSystems change for OS2200
+         return new LinkedList<Object>(whitelistSet);
       } catch (SQLException e) {
         throw new ConfigException("Couldn't open connection to " + dbUrl, e);
       }
