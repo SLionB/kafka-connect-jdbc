@@ -4,8 +4,9 @@
 **TimestampIncrementingTableQuerier.java**(*line 214*)
 
 ~~topic = topicPrefix + name;~~
-```java 
-topic = topicPrefix + name.replaceAll(":","_"); 
+```diff java 
+-topic = topicPrefix + name;
++topic = topicPrefix + name.replaceAll(":","_"); 
 ```
 
 ## Remove double quotes around table names in calculated SQL query string
