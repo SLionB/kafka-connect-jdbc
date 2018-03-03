@@ -172,4 +172,44 @@ case Types.NUMERIC:
 +	  }
         }
 ```
-
+## Map unmapped decimal types to string types
+**DataConverter.java**
+(*first instance of type DECIMAL*)
+```diff
+-	case Types.DECIMAL: {
+-       int scale = metadata.getScale(col);
+-       if (scale == -127) { //NUMBER without precision defined for OracleDB
+-         scale = 127;
+-       }
+-       SchemaBuilder fieldBuilder = Decimal.builder(scale);
+-       if (optional) {
+-         fieldBuilder.optional();
+-       }
+-       builder.field(fieldName, fieldBuilder.build());
+-       break;
+-     }
++ case Types.DECIMAL: {
++ if (optional) {
++         builder.field(fieldName, Schema.OPTIONAL_STRING_SCHEMA);
++       } else {
++        builder.field(fieldName, Schema.STRING_SCHEMA);
++       }
++       break;
++ }
+```
+(*second instance of type DECIMAL*)
+```diff
+-	case Types.DECIMAL: {
+-        ResultSetMetaData metadata = resultSet.getMetaData();
+-        int scale = metadata.getScale(col);
+-        if (scale == -127) {
+-          scale = 127;
+-        }
+-        colValue = resultSet.getBigDecimal(col, scale);
+-        break;
+-      }
++	case Types.DECIMAL: {
++       colValue = resultSet.getNString(col);
++       break;
++     }
+```
