@@ -10,8 +10,7 @@ Documentation for this connector can be found at Unisystems
 The following changes have been impemented arround the forked kafka-connect-jdbc 4.0.0-post repository:
 
 1. Connector class is: gr.unisystems.connect.jdbc.OS2200JdbcSourceConnector
-
-2 .Connector is a source connector only 
+2. Connector is a source connector only 
 
 3. Supports input table names with ":" by replacing it with "-" in the output topic name
 
