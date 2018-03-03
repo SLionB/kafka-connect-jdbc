@@ -4,13 +4,17 @@
 **TimestampIncrementingTableQuerier.java**(*line 214*)
 
 ~~topic = topicPrefix + name;~~
-```java topic = topicPrefix + name.replaceAll(":","_"); ```
+```java 
+topic = topicPrefix + name.replaceAll(":","_"); 
+```
 
 ## Remove double quotes around table names in calculated SQL query string
 **TimestampIncrementingTableQuerier.java**(*line 92*)
 
 ~~builder.append(JdbcUtils.quoteString(name, quoteString));~~
-```java builder.append(name); ```
+```java 
+builder.append(name); 
+```
 
 ## Get currrent time for OS2200 RDMS
 **JdbcUtils.java**(*line 243*)
