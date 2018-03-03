@@ -1,21 +1,22 @@
 # History of changes
 
-## Remove parent dependencies from pom.xml and add manual dependenies
+## Modify existing connector
+### 1. Remove parent dependencies from pom.xml and add manual dependenies
 
-## Support table names containing the character ":"
+### 2. Support table names containing the character ":"
 **TimestampIncrementingTableQuerier.java**(*line 214*)
 ```diff 
 - topic = topicPrefix + name;
 + topic = topicPrefix + name.replaceAll(":","_"); 
 ```
-## Remove double quotes around table names in calculated SQL query string
+### 3. Remove double quotes around table names in calculated SQL query string
 **TimestampIncrementingTableQuerier.java**(*line 92*)
 ```diff 
 - builder.append(JdbcUtils.quoteString(name, quoteString))
 + builder.append(name); 
 ```
 
-## Get currrent time for OS2200 RDMS database
+### 4. Get currrent time for OS2200 RDMS database
 **JdbcUtils.java**(*line 243*)
 ```diff
     String dbProduct = conn.getMetaData().getDatabaseProductName();
@@ -28,7 +29,7 @@
       query = "select CURRENT_TIMESTAMP;";
     }
 ```
-## Avoid reading table schema at startup
+### 5. Avoid reading table schema at startup
 **JdbcSourceConnectorConfig.java**
 (*line 482*)
 ```diff
@@ -40,7 +41,7 @@
         throw new ConfigException("Couldn't open connection to " + dbUrl, e);
       }
 ```
-## Avoid reading table schema periodically
+### 6. Avoid reading table schema periodically
 **JdbcSourceConnector.java**
 (*line 41*)
 ```diff
@@ -80,14 +81,14 @@
 -  
 - }
 ```
-## Avoid checking non null validity by default
+### 7. Avoid checking non null validity by default
 **JdbcSourceConnectorConfig.java**
 (*line 181*)
 ```diff
 - public static final boolean VALIDATE_NON_NULL_DEFAULT = true;
 + public static final boolean VALIDATE_NON_NULL_DEFAULT = false;
 ```
-## Handle OS2200 driver lack of isValid impementation
+### 8. Handle OS2200 driver lack of isValid impementation
 **CachedConnectionProvider.java**
 (*line 65*)
 ```diff
@@ -109,16 +110,16 @@
   return connection;
   }
 ```
-## Implement LEFT JOIN on query string to get values from second set of tables
+### 9. Implement LEFT JOIN on query string to get values from second set of tables
 
-## Map numeric types to numeric equivalents
+### 10. Map numeric types to numeric equivalents
 **JdbcSourceConnectorConfig.java**
 (*line 181*)
 ```diff
 - public static final boolean NUMERIC_PRECISION_MAPPING_DEFAULT = false;
 + public static final boolean NUMERIC_PRECISION_MAPPING_DEFAULT = true;
 ```
-## Map floating types based on their numeric scale
+### 11. Map floating types based on their numeric scale
 **DataConverter.java**
 (*first instance of type NUMERIC*)
 ```diff
@@ -176,7 +177,7 @@ case Types.NUMERIC:
 +	  }
         }
 ```
-## Map unmapped decimal types to string types
+### 12. Map unmapped decimal types to string types
 **DataConverter.java**
 (*first instance of type DECIMAL*)
 ```diff
@@ -217,7 +218,7 @@ case Types.NUMERIC:
 +       break;
 +     }
 ```
-## Convert UTC time to Greek time
+### 13. Convert UTC time to Greek time
 **DateTimeUtils.java**
 (*line 25*)
 ```diff
@@ -234,10 +235,10 @@ public class DateTimeUtils {
   };
 -  
 ```
-
-## Create new JAVA package gr.unisystems.connect as a copy of io.confluent.connect
-## Rename JdbcSourceConnector class to OS2200JdbcSourceConnector on gr.unisystems.connect package
-## Remove JdbcSinkConnector class from gr.unisystems.connect package
+## Create the new Connector
+### Create new JAVA package gr.unisystems.connect as a copy of io.confluent.connect
+### Rename JdbcSourceConnector class to OS2200JdbcSourceConnector on gr.unisystems.connect package
+### Remove JdbcSinkConnector class from gr.unisystems.connect package
 
 	
 
