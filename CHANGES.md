@@ -277,35 +277,42 @@ public class DateTimeUtils {
 ```
 ## Create the new Connector
 ### Create new JAVA package gr.unisystems.connect as a copy of io.confluent.connect
+Create a copy of confluentinc/kafka-connect-jdbc maven project to SLionB/kafka-connect-os2200-jdbc in GitHub
 ```bash
 TBD
 ```
 
-Copy source directory structure kafka-connect-jdbc/src/main/java/io/confluent/connect/jdbc/ to
-destination directory kafka-connect-os2200-jdbc/src/main/java/gr/unisystems/connect/jdbc
-'''
+Rename Maven project from io.confluent.connect to gr.unisystems.connect 
+```bash
+TBD
+```
+
+Copy source directory structure /src/main/java/io/confluent/connect/jdbc/ to
+destination directory /src/main/java/gr/unisystems/connect/jdbc
+```bash
 find /source -type d -exec mkdir -p {} /target
-'''
+```
+
+Delete previous data structure /src/main/java/io/confluent/connect/jdbc/
+```bash
+TBD
+```
 
 Copy all files to new location
-'''
+```bash
 while IFS= read -r file; do 
     cp /source/"$file" /target/"$file"
 done
-'''
+```
 
 ### Rename JdbcSourceConnector class to OS2200JdbcSourceConnector on gr.unisystems.connect package
-Rename all instances of io.confluent.connect.jdbc to gr.unisystems.connect.jdbc in kafka-connect-os2200-jdbc/src/main/java/gr/unisystems/connect/jdbc
-'''
+Rename all instances of io.confluent.connect.jdbc to gr.unisystems.connect.jdbc in /src/main/java/gr/unisystems/connect/jdbc
+```bash
 TBD
-'''
+```
 
 ### Remove JdbcSinkConnector class from gr.unisystems.connect package
-Delete Kafka Connect sink connector /src/main/java/gr/unisystems/connect/jdbc/JDBCSinkConnector
-'''
+Delete Kafka Connect sink connector java files from /src/main/java/gr/unisystems/connect/jdbc/
+```bash
 TBD
-'''
-
-	
-
-	
+```
