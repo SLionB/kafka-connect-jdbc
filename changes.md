@@ -233,7 +233,6 @@ public class DateTimeUtils {
 +     return new GregorianCalendar(UTC);
     }
   };
--  
 ```
 ## Create the new Connector
 ### Create new JAVA package gr.unisystems.connect as a copy of io.confluent.connect
