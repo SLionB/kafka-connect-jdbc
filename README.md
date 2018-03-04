@@ -24,9 +24,9 @@ The following changes have been impemented arround the forked kafka-connect-jdbc
 13. Correct timezone for date types to be "Europe/Athens" instead of "UTC" as log data are stored in RDMS in Greek time.
 
 The following changes have been implemented to create a totally new connector specialized for OS2200 RDMS database
-A. Create new Java package: gr.unisystems.connect
-B. Rename JdbcSourceConnectorConnector class to OS2200JdbcSourceConnector
-C. Delete JdbcSinkConnectorConnector as the connector is supposed to be a source connector only
+1. Create new Java package: gr.unisystems.connect
+2. Rename JdbcSourceConnectorConnector class to OS2200JdbcSourceConnector
+3. Delete JdbcSinkConnectorConnector as the connector is supposed to be a source connector only
 
 # Build
 
