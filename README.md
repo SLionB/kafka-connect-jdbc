@@ -26,7 +26,7 @@ The following changes have been impemented arround the forked kafka-connect-jdbc
 The following changes have been implemented to create a totally new connector specialized for OS2200 RDMS database
 1. Create new Java package: gr.unisystems.connect
 2. Rename JdbcSourceConnectorConnector class to OS2200JdbcSourceConnector
-3. Delete JdbcSinkConnectorConnector as the connector is supposed to be a source connector only
+3. Delete JdbcSinkConnector as this is supposed to be a source connector only
 
 # Build
 
