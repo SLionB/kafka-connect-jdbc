@@ -277,10 +277,9 @@ public class DateTimeUtils {
 ```
 ## Create the new Connector
 ### Create new JAVA package gr.unisystems.connect as a copy of io.confluent.connect
-Rename  all instances of JAVA maven project kafka-connect-jdbc to kafka-connect-os2200-jdbc in pom.xml
-'''
+```bash
 TBD
-'''
+```
 
 Copy source directory structure kafka-connect-jdbc/src/main/java/io/confluent/connect/jdbc/ to
 destination directory kafka-connect-os2200-jdbc/src/main/java/gr/unisystems/connect/jdbc
