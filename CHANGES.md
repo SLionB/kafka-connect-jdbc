@@ -111,6 +111,47 @@
   }
 ```
 ### 9. Implement LEFT JOIN on query string to get values from second set of tables
+**TimestampIncrementingTableQuerier.java**
+(*line 90*)
+```diff
+      case TABLE:
+-               builder.append("SELECT * FROM ");
+-		builder.append(name); // UniSystems change for OS2200
++		String name2 = name.replace("T_LOG_CBSLG1", "T_LOG_CBSLG2");
++		String incrementingColumn2 = incrementingColumn.replace("TL_CBSLG1", "TL_CBSLG2");
++		String appMessageColumn = "TL_CBSLG2_APP_MESSAGE";
++		builder.append("SELECT ");
++		builder.append(name + ".*,");
++		builder.append(name2 + "." + appMessageColumn);
++		builder.append(" FROM ");
++		builder.append(name + " LEFT JOIN " + name2);
++		builder.append(" ON " + name + "." + incrementingColumn + "=" + name2 + "." + incrementingColumn2);
+        break;
+```
+(*timestampIncrementingWhereClause*)
+```diff
+    builder.append(" WHERE ");+
++   builder.append(name + ".");
+    builder.append(JdbcUtils.quoteString(timestampColumn, quoteString));
+    builder.append(" < ? AND ((");
++   builder.append(name + ".");
+    builder.append(JdbcUtils.quoteString(timestampColumn, quoteString));
+    builder.append(" = ? AND ");
++   builder.append(name + ".");
+    builder.append(JdbcUtils.quoteString(incrementingColumn, quoteString));
+    builder.append(" > ?");
+    builder.append(") OR ");
++   builder.append(name + ".");
+    builder.append(JdbcUtils.quoteString(timestampColumn, quoteString));
+    builder.append(" > ?)");
+    builder.append(" ORDER BY ");
++   builder.append(name + ".");// UniSystems change to handle joins
+    builder.append(JdbcUtils.quoteString(timestampColumn, quoteString));
+    builder.append(",");
++   builder.append(name + ".");// UniSystems change to handle joins
+    builder.append(JdbcUtils.quoteString(incrementingColumn, quoteString));
+    builder.append(" ASC");
+```
 
 ### 10. Map numeric types to numeric equivalents
 **JdbcSourceConnectorConfig.java**
