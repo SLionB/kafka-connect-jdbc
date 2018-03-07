@@ -109,6 +109,28 @@
         }
   return connection;
   }
+ public synchronized Connection getValidConnection() {
+    try {
+      if (connection == null) {
+        newConnection();
+-     } else if (!connection.isValid(VALIDITY_CHECK_TIMEOUT_S)) {
++      } else if (!connection.isClosed()) {
++        log.info("The database connection is closed. Reconnecting...");
++        newConnection();
++     }
++   } catch (SQLException sqle) {
++       log.info("The database connection is invalid. Reconnecting...",sqle);
++        closeQuietly();
++   try {
++        newConnection();
++       }
++        catch (SQLException sqle) {
++        throw new ConnectException(sqle);
+ +       }
+    }
+    return connection;
+  }
+
 ```
 ### 9. Implement LEFT JOIN on query string to get values from second set of tables
 **TimestampIncrementingTableQuerier.java**
