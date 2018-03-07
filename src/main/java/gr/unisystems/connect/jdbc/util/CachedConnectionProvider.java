@@ -64,21 +64,26 @@ public class CachedConnectionProvider {
 
   // UniSystems change for OS2200
   public synchronized Connection getValidConnection() {
-      try {
-            if (connection == null) {
-            newConnection();
-            }
-            else if ( connection.isClosed() ) {
-            log.info("Reconnecting to database because it is closed");
-            newConnection();
-            }
-	    }
-
-		catch (SQLException sqle) {
-        log.info("Reconnecting to database because of the error : ", sqle);
-	    connection = null;
-	    return null;
+    try {
+      if (connection == null) {
+        newConnection();
+      } else if (!connection.isClosed()) {
+        log.info("The database connection is closed. Reconnecting...");
+        newConnection();
+      }
+    } catch (SQLException sqle) {
+        log.info("The database connection is invalid. Reconnecting...",sqle);
+        closeQuietly();
+   try {
+        newConnection();
         }
+        catch (SQLException sqle) {
+        throw new ConnectException(sqle);
+        }
+    }
+    return connection;
+  }
+
 
   return connection;
   }
