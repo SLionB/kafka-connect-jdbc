@@ -77,8 +77,8 @@ public class CachedConnectionProvider {
    try {
         newConnection();
         }
-        catch (SQLException sqle) {
-        throw new ConnectException(sqle);
+        catch (SQLException sqlee) {
+        throw new ConnectException(sqlee);
         }
     }
     return connection;
