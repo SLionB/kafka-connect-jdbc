@@ -85,9 +85,6 @@ public class CachedConnectionProvider {
   }
 
 
-  return connection;
-  }
-
   private void newConnection() throws SQLException {
     int attempts = 0;
     while (attempts < maxConnectionAttempts) {
