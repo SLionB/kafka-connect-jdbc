@@ -247,10 +247,17 @@ public class JdbcSourceTask extends SourceTask {
         log.error("Failed to run query for table {}: {}", querier.toString(), e);
         resetAndRequeueHead(querier);
         return null;
+      } catch (Throwable t) {
+        resetAndRequeueHead(querier);
+        throw t;
       }
     }
 
     // Only in case of shutdown
+	final TableQuerier querier = tableQueue.peek();
+    if (querier != null) {
+      resetAndRequeueHead(querier);
+    }
     return null;
   }
 
