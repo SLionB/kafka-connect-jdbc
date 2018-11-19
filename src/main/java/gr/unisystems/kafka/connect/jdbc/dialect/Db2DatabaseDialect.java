@@ -104,7 +104,8 @@ public class Db2DatabaseDialect extends GenericDatabaseDialect {
       case STRING:
         return "VARCHAR(32672)";
       case BYTES:
-        return "BLOB(64000)";
+        //return "BLOB(64000)";
+		return "BIGINT";
       default:
         return super.getSqlType(field);
     }
