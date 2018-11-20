@@ -1,0 +1,11 @@
+gr.unisystems.kafka.connect.jdbc.dialect.GenericDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.Db2DatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.DerbyDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.OracleDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.SqliteDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.PostgreSqlDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.MySqlDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.SqlServerDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.SapHanaDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.SybaseDatabaseDialect$Provider
+gr.unisystems.kafka.connect.jdbc.dialect.VerticaDatabaseDialect$Provider

@@ -62,7 +62,7 @@ public class Db2DatabaseDialect extends GenericDatabaseDialect {
 
   @Override
   protected String currentTimestampDatabaseQuery() {
-    return "SELECT CURRENT_TIMESTAMP(12) FROM SYSIBM.SYSDUMMY1;";
+    return "SELECT CURRENT_TIMESTAMP(12) FROM SYSIBM.SYSDUMMY1";
   }
 
   @Override
@@ -104,8 +104,7 @@ public class Db2DatabaseDialect extends GenericDatabaseDialect {
       case STRING:
         return "VARCHAR(32672)";
       case BYTES:
-        //return "BLOB(64000)";
-		return "BIGINT";
+        return "BLOB(64000)";
       default:
         return super.getSqlType(field);
     }
