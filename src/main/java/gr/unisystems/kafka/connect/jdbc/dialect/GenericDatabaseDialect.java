@@ -923,6 +923,7 @@ public class GenericDatabaseDialect implements DatabaseDialect {
         break;
       }
 
+	  case Types.DECIMAL:
       case Types.NUMERIC:
         if (mapNumerics == NumericMapping.PRECISION_ONLY) {
           log.debug("NUMERIC with precision: '{}' and scale: '{}'", precision, scale);
@@ -965,16 +966,16 @@ public class GenericDatabaseDialect implements DatabaseDialect {
         }
         // fallthrough
 
-      case Types.DECIMAL: {
-        log.debug("DECIMAL with precision: '{}' and scale: '{}'", precision, scale);
-        scale = decimalScale(columnDefn);
-        SchemaBuilder fieldBuilder = Decimal.builder(scale);
-        if (optional) {
-          fieldBuilder.optional();
-        }
-        builder.field(fieldName, fieldBuilder.build());
-        break;
-      }
+    #  case Types.DECIMAL: {
+    #    log.debug("DECIMAL with precision: '{}' and scale: '{}'", precision, scale);
+    #    scale = decimalScale(columnDefn);
+    #    SchemaBuilder fieldBuilder = Decimal.builder(scale);
+    #    if (optional) {
+    #      fieldBuilder.optional();
+    #    }
+    #    builder.field(fieldName, fieldBuilder.build());
+    #    break;
+    #  }
 
       case Types.CHAR:
       case Types.VARCHAR:
@@ -1134,6 +1135,7 @@ public class GenericDatabaseDialect implements DatabaseDialect {
         return rs -> rs.getDouble(col);
       }
 
+	  case Types.DECIMAL:
       case Types.NUMERIC:
         if (mapNumerics == NumericMapping.PRECISION_ONLY) {
           int precision = defn.precision();
@@ -1172,12 +1174,12 @@ public class GenericDatabaseDialect implements DatabaseDialect {
         }
         // fallthrough
 
-      case Types.DECIMAL: {
-        final int precision = defn.precision();
-        log.debug("DECIMAL with precision: '{}' and scale: '{}'", precision, defn.scale());
-        final int scale = decimalScale(defn);
-        return rs -> rs.getBigDecimal(col, scale);
-      }
+    #  case Types.DECIMAL: {
+    #    final int precision = defn.precision();
+    #    log.debug("DECIMAL with precision: '{}' and scale: '{}'", precision, defn.scale());
+    #    final int scale = decimalScale(defn);
+    #    return rs -> rs.getBigDecimal(col, scale);
+    #  }
 
       case Types.CHAR:
       case Types.VARCHAR:
