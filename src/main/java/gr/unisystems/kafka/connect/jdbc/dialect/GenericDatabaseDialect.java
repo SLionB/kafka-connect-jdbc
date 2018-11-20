@@ -965,18 +965,18 @@ public class GenericDatabaseDialect implements DatabaseDialect {
           }
         }
         // fallthrough
-
-    #  case Types.DECIMAL: {
-    #    log.debug("DECIMAL with precision: '{}' and scale: '{}'", precision, scale);
-    #    scale = decimalScale(columnDefn);
-    #    SchemaBuilder fieldBuilder = Decimal.builder(scale);
-    #    if (optional) {
-    #      fieldBuilder.optional();
-    #    }
-    #    builder.field(fieldName, fieldBuilder.build());
-    #    break;
-    #  }
-
+    /*
+      case Types.DECIMAL: {
+        log.debug("DECIMAL with precision: '{}' and scale: '{}'", precision, scale);
+        scale = decimalScale(columnDefn);
+        SchemaBuilder fieldBuilder = Decimal.builder(scale);
+        if (optional) {
+          fieldBuilder.optional();
+        }
+        builder.field(fieldName, fieldBuilder.build());
+        break;
+      }
+    */
       case Types.CHAR:
       case Types.VARCHAR:
       case Types.LONGVARCHAR:
@@ -1173,14 +1173,14 @@ public class GenericDatabaseDialect implements DatabaseDialect {
           }
         }
         // fallthrough
-
-    #  case Types.DECIMAL: {
-    #    final int precision = defn.precision();
-    #    log.debug("DECIMAL with precision: '{}' and scale: '{}'", precision, defn.scale());
-    #    final int scale = decimalScale(defn);
-    #    return rs -> rs.getBigDecimal(col, scale);
-    #  }
-
+    /*
+      case Types.DECIMAL: {
+        final int precision = defn.precision();
+        log.debug("DECIMAL with precision: '{}' and scale: '{}'", precision, defn.scale());
+        final int scale = decimalScale(defn);
+        return rs -> rs.getBigDecimal(col, scale);
+      }
+    */
       case Types.CHAR:
       case Types.VARCHAR:
       case Types.LONGVARCHAR: {
