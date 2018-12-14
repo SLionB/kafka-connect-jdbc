@@ -24,12 +24,12 @@ import java.util.TimeZone;
 
 public class DateTimeUtils {
 
-  public static final TimeZone UTC = TimeZone.getTimeZone("Europe/Athens");
+  public static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
   public static final ThreadLocal<Calendar> UTC_CALENDAR = new ThreadLocal<Calendar>() {
     @Override
     protected Calendar initialValue() {
-      return new GregorianCalendar(TimeZone.getTimeZone("Europe/Athens"));
+      return new GregorianCalendar(UTC);
     }
   };
 
