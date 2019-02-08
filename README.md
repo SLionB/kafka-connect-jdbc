@@ -1,70 +1,36 @@
-# Kafka Connect JDBC Connector for Unisys OS2200 RDMS Database
+# Kafka Connect JDBC Connector
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fconfluentinc%2Fkafka-connect-jdbc.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fconfluentinc%2Fkafka-connect-jdbc?ref=badge_shield)
 
-kafka-connect-os2200-jdbc is a [Kafka Connector](http://kafka.apache.org/documentation.html#connect)
-for loading data from Unisys OS2200 JDBC-compatible RDMS database.
 
-Documentation for this connector can be found at Unisystems
+kafka-connect-jdbc is a [Kafka Connector](http://kafka.apache.org/documentation.html#connect)
+for loading data to and from any JDBC-compatible database.
+
+Documentation for this connector can be found [here](http://docs.confluent.io/current/connect/connect-jdbc/docs/index.html).
 
 # Development
 
-The following changes have been impemented arround the forked kafka-connect-jdbc 4.0.0-post repository:
+To build a development version you'll need a recent version of Kafka as well as a set of upstream Confluent projects, which you'll have to build from their appropriate snapshot branch. See the [FAQ](https://github.com/confluentinc/kafka-connect-jdbc/wiki/FAQ)
+for guidance on this process.
 
-1. Remove parent dependencies from pom.xml and add manual dependenies
-2. Supports input table names with ":" by replacing it with "-" in the output topic name
-3. Remove double quotes around table names in calculated SQL query string
-4. Identify OS2200 RDMS database from metadata and configure SQL statement to get current time as "select current_timestamp from RDMS.RDMS_DUMMY"
-5. Remove checking database and table schema at startup and 
-6. Remove checking database and table schema periodically with "TableMonitorThread" because of using a read only SQL user account - Whitelist of tables is added statically instead
-7. Change default setting to not check fields for null validation with "VALIDATE_NON_NULL_DEFAULT = false" setting
-8. Handle OS2200 driver lack of impementation for "connection.isValid()"  method by replacing it with "connection.isClosed()" method
-9. Get additional field from the second version of each table using LEFT join on TL_CBSLG1_LOG_ID and TL_CBSLG2_LOG_ID fields
-10. Change default setting to "NUMERIC_PRECISION_MAPPING_DEFAULT = true", to auto assign NUMERIC types to the correct types based on their sizes
-11. Add support for NUMERIC types with "size > and presicion > 0" to be identified as DOUBLE types 
-12. All other not auto-identified types are mapped to STRING type instead of array of bytes that maps to BIGINT.
-13. Correct timezone for date types to be "Europe/Athens" instead of "UTC" as log data are stored in RDMS in Greek time.
+You can build kafka-connect-jdbc with Maven using the standard lifecycle phases.
 
-The following changes have been implemented to create a totally new connector specialized for OS2200 RDMS database
-1. Create new Java package: gr.unisystems.connect
-2. Rename JdbcSourceConnectorConnector class to OS2200JdbcSourceConnector
-3. Delete JdbcSinkConnector as this is supposed to be a source connector only
+# FAQ
 
-# Build
+Refer frequently asked questions on Kafka Connect JDBC here -
+https://github.com/confluentinc/kafka-connect-jdbc/wiki/FAQ
 
-To build a development version you'll need a recent version of Kafka. You can build
-kafka-connect-os200-jdbc with Maven using the standard lifecycle phases.
+# Contribute
 
-Install Open JDK
+- Source Code: https://github.com/confluentinc/kafka-connect-jdbc
+- Issue Tracker: https://github.com/confluentinc/kafka-connect-jdbc/issues
 
-	yum install java-1.8.0-openjdk
-	yum install java-1.8.0-openjdk-devel
+# Information
 
-Install Maven
+For more information, check the documentation for the JDBC connector on the [confluent.io](https://docs.confluent.io/current/connect/kafka-connect-jdbc/index.html) website. Questions related to the connector can be asked on [Community Slack](https://launchpass.com/confluentcommunity) or the [Confluent Platform Google Group](https://groups.google.com/forum/#!topic/confluent-platform/).
 
-	curl -O  http://www-eu.apache.org/dist/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz
-	tar xzvf apache-maven-3.5.2-bin.tar.gz
-	rm -f    apache-maven-3.5.2-bin.tar.gz
-	mv       apache-maven-3.5.2 /opt/mvn
-	/opt/mvn/bin/mvn -v
-  
-Clone repository
-
-	cd /work  
-	git clone https://github.com/SLionB/kafka-connect-os2200-jdbc.git
-  
-  
-Build connector
-
-	cd /work/kafka-connect-os2200-jdbc
-	/opt/mvn/bin/mvn package -DskipTests -Dcheckstyle.skip
-   
-
-Deploy connector
-
-	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka1:/usr/share/java/kafka-connect-jdbc/ 
-	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka1:/usr/share/java/kafka-connect-jdbc/ 
-	scp /work/kafka-connect-os2200-jdbc/target/kafka-connect-os2200-jdbc-4.0.1-SNAPSHOT.jar kafka1:/usr/share/java/kafka-connect-jdbc/
-	
-   
 # License
 
-The project is licensed under the Apache 2 license.
+This project is licensed under the [Confluent Community License](LICENSE).
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fconfluentinc%2Fkafka-connect-jdbc.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fconfluentinc%2Fkafka-connect-jdbc?ref=badge_large)

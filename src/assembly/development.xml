@@ -11,7 +11,7 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>share/java/kafka-connect-os2200-jdbc/</outputDirectory>
+            <outputDirectory>share/java/kafka-connect-jdbc/</outputDirectory>
         </dependencySet>
     </dependencySets>
 </assembly>

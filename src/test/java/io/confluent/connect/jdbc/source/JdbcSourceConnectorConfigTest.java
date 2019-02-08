@@ -1,22 +1,18 @@
-/**
- * Copyright 2015 Confluent Inc.
+/*
+ * Copyright 2018 Confluent Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Confluent Community License; you may not use this file
+ * except in compliance with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.confluent.io/confluent-community-license
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- **/
-package gr.unisystems.connect.jdbc.source;
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OF ANY KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations under the License.
+ */
+package io.confluent.connect.jdbc.source;
 
-import gr.unisystems.connect.jdbc.source.JdbcSourceConnectorConfig.CachedRecommenderValues;
-import gr.unisystems.connect.jdbc.source.JdbcSourceConnectorConfig.CachingRecommender;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Recommender;
 import org.apache.kafka.common.config.ConfigValue;
@@ -24,7 +20,12 @@ import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
+import org.powermock.api.easymock.annotation.Mock;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -32,25 +33,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.confluent.connect.jdbc.source.JdbcSourceConnectorConfig.CachedRecommenderValues;
+import io.confluent.connect.jdbc.source.JdbcSourceConnectorConfig.CachingRecommender;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Recommender.class})
+@PowerMockIgnore("javax.management.*")
 public class JdbcSourceConnectorConfigTest {
 
   private EmbeddedDerby db;
   private Map<String, String> props;
   private ConfigDef configDef;
   private List<ConfigValue> results;
-  private Recommender mockRecommender = PowerMock.createMock(Recommender.class);
+  @Mock
+  private Recommender mockRecommender;
   private MockTime time = new MockTime();
 
   @Before
   public void setup() throws Exception {
-    props = new HashMap<>();
     configDef = null;
     results = null;
+    props = new HashMap<>();
 
     db = new EmbeddedDerby();
     db.createTable("some_table", "id", "INT");
@@ -101,6 +109,7 @@ public class JdbcSourceConnectorConfigTest {
     assertBlacklistRecommendations();
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void testCachingRecommender() {
     final List<Object> results1 = Collections.singletonList((Object) "xyz");
@@ -166,11 +175,12 @@ public class JdbcSourceConnectorConfigTest {
     assertNull(cached.cachedValue(config2, expiry + 1L));
   }
 
+  @SuppressWarnings("unchecked")
   protected <T> void assertContains(Collection<T> actual, T... expected) {
-    assertEquals(expected.length, actual.size());
     for (T e : expected) {
       assertTrue(actual.contains(e));
     }
+    assertEquals(expected.length, actual.size());
   }
 
   protected ConfigValue namedValue(List<ConfigValue> values, String name) {
@@ -180,14 +190,17 @@ public class JdbcSourceConnectorConfigTest {
     return null;
   }
 
+  @SuppressWarnings("unchecked")
   protected <T> void assertRecommendedValues(ConfigValue value, T... recommendedValues) {
     assertContains(value.recommendedValues(), recommendedValues);
   }
 
+  @SuppressWarnings("unchecked")
   protected <T> void assertWhitelistRecommendations(T... recommendedValues) {
     assertContains(namedValue(results, JdbcSourceConnectorConfig.TABLE_WHITELIST_CONFIG).recommendedValues(), recommendedValues);
   }
 
+  @SuppressWarnings("unchecked")
   protected <T> void assertBlacklistRecommendations(T... recommendedValues) {
     assertContains(namedValue(results, JdbcSourceConnectorConfig.TABLE_BLACKLIST_CONFIG).recommendedValues(), recommendedValues);
   }
