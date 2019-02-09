@@ -25,6 +25,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+import java.sql.Statement;
+import java.sql.ResultSet;
+
 public class CachedConnectionProvider {
 
   private static final Logger log = LoggerFactory.getLogger(CachedConnectionProvider.class);
@@ -63,7 +67,7 @@ public class CachedConnectionProvider {
   }
 
   // UniSystems change for OS2200
-  public synchronized Connection getValidConnection() {
+  public synchronized Connection getValidConnection1() {
     try {
       if (connection == null) {
         newConnection();
@@ -82,6 +86,40 @@ public class CachedConnectionProvider {
         }
     }
     return connection;
+  }
+
+  // UniSystems change for OS2200 new version with custom connection is valid
+  public synchronized Connection getValidConnection () {
+    try {
+      if (connection == null) {
+        newConnection();
+      } else if (!isConnectionValid(connection, VALIDITY_CHECK_TIMEOUT_S)) {
+        log.info("The database connection is invalid. Reconnecting...");
+        closeQuietly();
+        newConnection();
+      }
+    } catch (SQLException sqle) {
+      throw new ConnectException(sqle);
+    }
+    return connection;
+  }
+  
+  // UniSystems change for OS2200 the custom connection is valid
+  public boolean isConnectionValid(
+      Connection connection,
+      int timeout
+  ) throws SQLException {
+
+    // issue a test query ...
+    String query = "SELECT 1 FROM RDMS.RDMS_DUMMY";
+    try (Statement statement = connection.createStatement()) {
+      if (statement.execute(query)) {
+        try (ResultSet rs = statement.getResultSet()) {
+          // do nothing with the result set
+        }
+      }
+    }
+    return true;
   }
 
 
