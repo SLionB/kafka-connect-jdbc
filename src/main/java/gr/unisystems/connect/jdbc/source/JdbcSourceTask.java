@@ -39,6 +39,10 @@ import gr.unisystems.connect.jdbc.util.CachedConnectionProvider;
 import gr.unisystems.connect.jdbc.util.JdbcUtils;
 import gr.unisystems.connect.jdbc.util.Version;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * JdbcSourceTask is a Kafka Connect SourceTask implementation that reads from JDBC databases and
  * generates Kafka Connect records.
@@ -172,8 +176,29 @@ public class JdbcSourceTask extends SourceTask {
     stop = new AtomicBoolean(false);
   }
 
+  //UniSystems adds ThreadPrefix=JL## based on host name the task is running
+  private String modifydbURL(String dbURL) {
+		InetAddress inetAddress = null;
+		try {
+			inetAddress = Inet4Address.getLocalHost();
+		} catch (UnknownHostException e) {
+			return dbURL;
+		}
+		String hostname = inetAddress. getHostName();
+		char lastcharOfHostname = hostname.substring(hostname.length() - 1).charAt(0); 
+		String lastcharOfHostnamePadded = String.format("%02d" , Character.getNumericValue(lastcharOfHostname));
+		
+	    if (dbURL.contains("ThreadPrefix=JLKA")) 
+			dbURL = dbURL.replaceFirst("JLKA", "JL" + lastcharOfHostnamePadded);
+		else
+			dbURL = dbURL + ";ThreadPrefix=JL" + lastcharOfHostnamePadded;
+				
+		
+		return dbURL;
+  }
+  
   private void createConnectionProvider() {
-    final String dbUrl = config.getString(JdbcSourceConnectorConfig.CONNECTION_URL_CONFIG);
+    final String dbUrl = modifydbURL(config.getString(JdbcSourceConnectorConfig.CONNECTION_URL_CONFIG));
     final String dbUser = config.getString(JdbcSourceConnectorConfig.CONNECTION_USER_CONFIG);
     final Password dbPassword
         = config.getPassword(JdbcSourceConnectorConfig.CONNECTION_PASSWORD_CONFIG);
