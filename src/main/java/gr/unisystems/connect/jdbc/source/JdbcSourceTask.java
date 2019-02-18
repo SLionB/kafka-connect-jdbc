@@ -185,6 +185,7 @@ public class JdbcSourceTask extends SourceTask {
 			return dbURL;
 		}
 		String hostname = inetAddress. getHostName();
+		hostname=hostname.split("\\.")[0];
 		char lastcharOfHostname = hostname.substring(hostname.length() - 1).charAt(0); 
 		String lastcharOfHostnamePadded = String.format("%02d" , Character.getNumericValue(lastcharOfHostname));
 		
